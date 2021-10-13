@@ -13,7 +13,7 @@ namespace Storage_CourseWork.Services
         }
         public void GlobalMenu()
         {
-           autorization.LoadProducts();
+            autorization.LoadProducts();
             autorization.LoadClients();
             autorization.LoadStat();
             Console.WriteLine(@"                                                                                                    
@@ -51,7 +51,6 @@ namespace Storage_CourseWork.Services
                         {
                             ManagerMenu();
                         }
-                        autorization.SingInManager();
                     break;
                     case 3:
                         Console.Clear();
