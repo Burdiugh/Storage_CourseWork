@@ -102,14 +102,21 @@ namespace Storage_CourseWork.Services
             ShowClients();
             Console.Write("\n\nEnter the id of client to remove: ");
             int id = Convert.ToInt32(Console.ReadLine());
-            var result = storage.Clients.Where(i => i.Id == id);
+            if (id is int)
+            {
+                var result = storage.Clients.Where(i => i.Id == id);
                 foreach (var item in result.ToList())
                 {
-                    Console.WriteLine($"\n--- Deleted: {item}\n ---");
+                    Console.WriteLine($"\nDeleted: {item}\n");
                     storage.Clients.Remove(item);
                 }
-            Console.WriteLine("Press any button to continue...");
-            Console.ReadKey();
+                Console.WriteLine("Press any button to continue...");
+                Console.ReadKey();
+            }
+            else
+            {
+                throw new FormatException();
+            }
         }
         public bool SignIn()
         {
