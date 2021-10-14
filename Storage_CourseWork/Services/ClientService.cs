@@ -38,69 +38,69 @@ namespace Storage_CourseWork.Services
                 }
                 break;
             }
-                Console.Write("Enter the login: ");
-                string login;
-                do
+            Console.Write("Enter the login: ");
+            string login;
+            do
+            {
+                login = Console.ReadLine();
+                if (login.Length < 4)
                 {
-                    login = Console.ReadLine();
-                    if (login.Length < 4)
-                    {
-                        Console.WriteLine("\nYour Login must have more than 3 letters or digits\n");
-                    }
-                } while (login.Length < 4);
-                Console.Write("Enter the password ");
-                string password;
-                do
+                    Console.WriteLine("\nYour Login must have more than 3 letters or digits\n");
+                }
+            } while (login.Length < 4);
+            Console.Write("Enter the password ");
+            string password;
+            do
+            {
+                password = Console.ReadLine();
+                if (!regexPass.IsMatch(password))
                 {
-                    password = Console.ReadLine();
-                    if (!regexPass.IsMatch(password))
-                    {
-                        Console.WriteLine("\nEasy password!\n");
-                    }
-                } while (!regexPass.IsMatch(password));
-                Client client = new Client(name, surname, money, login, password);
-                storage.AddClient(client);
-            
+                    Console.WriteLine("\nEasy password!\n");
+                }
+            } while (!regexPass.IsMatch(password));
+            Client client = new Client(name, surname, money, login, password);
+            storage.AddClient(client);
+
         }
 
         public bool SingInManager()
         {
             do
             {
-            Console.Write("Enter login: ");
-            string login = Console.ReadLine();
-              Console.Write("Enter password: ");
-            string password = Console.ReadLine();
-            if (login=="admin123"&&password=="admin228")
-            {
+                Console.Write("Enter login: ");
+                string login = Console.ReadLine();
+                Console.Write("Enter password: ");
+                string password = Console.ReadLine();
+                if (login == "admin123" && password == "admin228")
+                {
                     Console.WriteLine("You logined as Manager.");
-                return true;
-            }
-            else
-            {
-                Console.WriteLine("\nWrong!\n");
-                return false;
-            }
+                    return true;
+                }
+                else
+                {
+                    Console.WriteLine("\nWrong!\n");
+                    return false;
+                }
             } while (true);
         }
         public bool SingInWorker()
         {
             do
             {
-            Console.Write("Enter login: ");
-            string login = Console.ReadLine();
-              Console.Write("Enter password: ");
-            string password = Console.ReadLine();
-            if (login=="Worker333"&&password=="Workerpro")
-            {
+                Console.Write("Enter login: ");
+                string login = Console.ReadLine();
+                Console.Write("Enter password: ");
+                string password = Console.ReadLine();
+                if (login == "Worker333" && password == "Workerpro")
+                {
                     Console.WriteLine("You logined as Worker.");
-                return true;
-            }
-            else
-            {
-                Console.WriteLine("\nWrong!\n");
-                return false;
-            }
+                    return true;
+                }
+                else
+                {
+                    Console.WriteLine("\nWrong!\n");
+                    return false;
+                }
             } while (true);
         }
 
@@ -109,7 +109,7 @@ namespace Storage_CourseWork.Services
             Console.Clear();
             ShowClients();
             Console.Write("\n\nEnter the id of client to remove: ");
-            int id=0;
+            int id = 0;
             while (true)
             {
                 try
@@ -139,7 +139,7 @@ namespace Storage_CourseWork.Services
             do
             {
                 login = Console.ReadLine();
-                if (login.Length<4)
+                if (login.Length < 4)
                 {
                     Console.WriteLine("\nYour Login must have more than 3 letters or digits\n");
                 }
@@ -147,8 +147,10 @@ namespace Storage_CourseWork.Services
             Console.Write("Enter password: ");
             string password = Console.ReadLine();
             Console.Clear();
-            if (storage.Clients.Any(el => el.Login == login)) {
-                if (storage.Clients.Where(el => el.Login == login).First().Password == password) {
+            if (storage.Clients.Any(el => el.Login == login))
+            {
+                if (storage.Clients.Where(el => el.Login == login).First().Password == password)
+                {
                     Console.WriteLine($"\n\t\t\tYou logined as {login}\n\n");
                     var user = storage.Clients.Where(el => el.Login == login).First();
                     LoginedClient = user;
@@ -176,7 +178,10 @@ namespace Storage_CourseWork.Services
         }
         public void ShowProductsOfClient()
         {
-            foreach (var item in LoginedClient.products) {
+            int count = 0;
+            foreach (var item in LoginedClient.products)
+            {
+                Console.WriteLine($"Product #{++count}\n");
                 Console.WriteLine(item);
             }
         }
@@ -186,7 +191,7 @@ namespace Storage_CourseWork.Services
         }
         public void LoadClients()
         {
-            storage.LoadClients(); 
+            storage.LoadClients();
         }
         public void LoadProducts()
         {
@@ -213,23 +218,44 @@ namespace Storage_CourseWork.Services
             int days;
             Console.Write("Enter the name of product: ");
             name = Console.ReadLine();
-            Console.Write("Enter the area of product: ");
-            area = Convert.ToDouble(Console.ReadLine());
-            Console.Write("Hom much days do you want to save? : ");
-            days = Convert.ToInt32(Console.ReadLine());
-            if (area is double && days is int)
+            while (true)
             {
-                price = area * (double)days * 8;
-                Product product = new Product(name, area, price, days,LoginedClient);
-                product.ExpiredDate = (DateTime.Now).AddDays(days);
-                storage.AddProduct(product);
-                LoginedClient.Money -= price;
-                storage.Cash += price;
+                try
+                {
+                    Console.Write("Enter the area of product: ");
+                    area = Convert.ToDouble(Console.ReadLine());
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    continue;
+                }
+                break;
             }
-            else
+            while (true)
             {
-                throw new FormatException();
+                try
+                {
+                    Console.Write("Hom much days do you want to save? : ");
+                    days = Convert.ToInt32(Console.ReadLine());
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    continue;
+                }
+                break;
             }
+
+            price = area * (double)days * 8;
+            Product product = new Product(name, area, price, days, LoginedClient);
+            product.ExpiredDate = (DateTime.Now).AddDays(days);
+            storage.AddProduct(product);
+            LoginedClient.Money -= price;
+            storage.Cash += price;
+
+
         }
         public bool IsFull()
         {
@@ -241,21 +267,80 @@ namespace Storage_CourseWork.Services
         }
         public void TakeProduct()
         {
+            int select = 0;
             storage.ShowProductsOfClientsOnStorage(LoginedClient);
             Console.Write("\n\nEnter id: ");
-            int id = Convert.ToInt32(Console.ReadLine());
-            if (!storage.Products.Any((el)=> el.Id == id)) { 
-                Console.WriteLine("There aren`t products with such id");
+            int id = 0;
+            while (true)
+            {
+                try
+                {
+                    id = Convert.ToInt32(Console.ReadLine());
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    continue;
+                }
+                break;
             }
-            
-            var product = storage.Products.Where((el) =>el.Id == id).First();
-            if (product.Owner.Login == LoginedClient.Login) {
+            if (!storage.Products.Any((el) => el.Id == id))
+            {
+                Console.WriteLine("There aren`t products with such id\n\n");
+                Console.WriteLine("1. Try again\n2. Back");
+                while (true)
+                {
+                    try
+                    {
+                        do
+                        {
+                            select = Convert.ToInt32(Console.ReadLine());
+                            if (select < 0 || select > 3)
+                            {
+                            }
+                            
+                        } while (select < 0 || select > 3);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                        continue;
+                    }
+                    break;
+                }
+                switch (select)
+                {
+                    case 1:
+                        while (true)
+                        {
+                            try
+                            {
+                                id = Convert.ToInt32(Console.ReadLine());
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine(ex.Message);
+                                continue;
+                            }
+                            break;
+                        }
+                        break;
+                    case 2:
+
+                        break;
+
+                }
+                
+            }
+            var product = storage.Products.Where((el) => el.Id == id).First();
+            if (product.Owner.Login == LoginedClient.Login)
+            {
                 LoginedClient.products.Add(product);
                 storage.Products.Remove(product);
                 return;
             }
             Console.WriteLine("Please, enter correct Id!");
-            
+
         }
     }
 

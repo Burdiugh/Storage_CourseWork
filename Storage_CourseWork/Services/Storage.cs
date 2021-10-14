@@ -74,7 +74,7 @@ namespace Storage_CourseWork.Services
             using (FileStream fs = new FileStream("Products.dat", FileMode.OpenOrCreate))
             {
                 binary.Serialize(fs, Products);
-                Console.WriteLine("Serelized!");
+              
             }
         }
         public void LoadProduct()
@@ -90,7 +90,7 @@ namespace Storage_CourseWork.Services
                 {
                     List<Product> deserilizeProducts = (List<Product>)binary.Deserialize(fs);
                     Products = deserilizeProducts;
-                    Console.WriteLine("Deserelized!");
+                    
                 }
 
             }
@@ -101,7 +101,7 @@ namespace Storage_CourseWork.Services
             {
                 binary.Serialize(fs, Cash);
                 binary.Serialize(fs, Clients.Count);
-                Console.WriteLine("Serelized!");
+               
             }
         }
         public void LoadStat()
@@ -118,7 +118,7 @@ namespace Storage_CourseWork.Services
                     int deserilizeCount = (int)binary.Deserialize(fs);
                     Cash = deserilizeCash;
                     valueOfClients = deserilizeCount;
-                    Console.WriteLine("Deserelized!");
+                  
                 }
             }
         }
@@ -143,7 +143,7 @@ namespace Storage_CourseWork.Services
             using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate))
             {
                 binary.Serialize(fs, Clients);
-                Console.WriteLine("Serelized!");
+               
             }
         }
         public void LoadClients()
@@ -158,7 +158,7 @@ namespace Storage_CourseWork.Services
                 {
                     List<Client> deserilizeClients = (List<Client>)binary.Deserialize(fs);
                     Clients = deserilizeClients;
-                    Console.WriteLine("Deserelized!");
+                    
                 }
             }
         }
