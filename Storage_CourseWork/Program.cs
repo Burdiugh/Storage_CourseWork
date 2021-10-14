@@ -7,7 +7,14 @@ namespace Storage_CourseWork
     {
         static void Main(string[] args)
         {
-           new Menu();
+            try
+            {
+                new Menu();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
     }
 }

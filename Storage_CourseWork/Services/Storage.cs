@@ -32,7 +32,7 @@ namespace Storage_CourseWork.Services
         {
             Products.Add(product);
         }
-       public void ShowClients()
+        public void ShowClients()
         {
             foreach (var item in Clients)
             {
@@ -42,7 +42,7 @@ namespace Storage_CourseWork.Services
 
         public bool IsFull()
         {
-            if (Products.Count>=maxPlaces)
+            if (Products.Count >= maxPlaces)
             {
                 return true;
             }
@@ -80,9 +80,16 @@ namespace Storage_CourseWork.Services
         {
             using (FileStream fs = new FileStream("Products.dat", FileMode.OpenOrCreate))
             {
-                List<Product> deserilizeProducts = (List<Product>)binary.Deserialize(fs);
-                Products = deserilizeProducts;
-                Console.WriteLine("Deserelized!");
+                if (fs == null)
+                {
+                    throw new NullReferenceException();
+                }
+                else
+                {
+                    List<Product> deserilizeProducts = (List<Product>)binary.Deserialize(fs);
+                    Products = deserilizeProducts;
+                    Console.WriteLine("Deserelized!");
+                }
 
             }
         }
@@ -99,12 +106,18 @@ namespace Storage_CourseWork.Services
         {
             using (FileStream fs = new FileStream("Stat.dat", FileMode.OpenOrCreate))
             {
-                double deserilizeCash = (double)binary.Deserialize(fs);
-                int deserilizeCount = (int)binary.Deserialize(fs);
-                Cash = deserilizeCash;
-                valueOfClients = deserilizeCount;
-                Console.WriteLine("Deserelized!");
-
+                if (fs == null)
+                {
+                    throw new NullReferenceException();
+                }
+                else
+                {
+                    double deserilizeCash = (double)binary.Deserialize(fs);
+                    int deserilizeCount = (int)binary.Deserialize(fs);
+                    Cash = deserilizeCash;
+                    valueOfClients = deserilizeCount;
+                    Console.WriteLine("Deserelized!");
+                }
             }
         }
         public void ShowStat()
@@ -126,18 +139,25 @@ namespace Storage_CourseWork.Services
         public void SaveClients()
         {
             using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate))
-                {
-                   binary.Serialize(fs, Clients);
-                    Console.WriteLine("Serelized!");
-                }
+            {
+                binary.Serialize(fs, Clients);
+                Console.WriteLine("Serelized!");
+            }
         }
-         public void LoadClients()
+        public void LoadClients()
         {
             using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate))
+            {
+                if (fs == null)
                 {
-                   List<Client>deserilizeClients = (List<Client>)binary.Deserialize(fs);
-                Clients = deserilizeClients;
-                Console.WriteLine("Deserelized!");
+                    throw new NullReferenceException();
+                }
+                else
+                {
+                    List<Client> deserilizeClients = (List<Client>)binary.Deserialize(fs);
+                    Clients = deserilizeClients;
+                    Console.WriteLine("Deserelized!");
+                }
             }
         }
 

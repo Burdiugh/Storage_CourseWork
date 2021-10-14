@@ -26,41 +26,47 @@ namespace Storage_CourseWork.Services
             int select = 0;
             do
             {
-            Console.WriteLine("\n\n\t\t\t You are in Storage Terminal\n\n\t\t\tWho are you?\n\n1. Client\n" +
-                "2. Manager\n" +
-                "3. Worker\n" +
-                "0. Exit\n");
+                Console.WriteLine("\n\n\t\t\t You are in Storage Terminal\n\n\t\t\tWho are you?\n\n1. Client\n" +
+                    "2. Manager\n" +
+                    "3. Worker\n" +
+                    "0. Exit\n");
                 do
                 {
                     select = Convert.ToInt32(Console.ReadLine());
-                    if (select<0||select>3)
+                    if (select < 0 || select > 3)
                     {
                         Console.WriteLine("Incorrect case of menu, try again!\n");
                     }
                 } while (select < 0 || select > 3);
-
-                switch (select)
-            {
-                case 1:
-                    Console.Clear();
-                    ClientMenu();
-                    break;
-                case 2:
-                    Console.Clear();
-                        if (autorization.SingInManager())
-                        {
-                            ManagerMenu();
-                        }
-                    break;
-                    case 3:
-                        Console.Clear();
-                        if (autorization.SingInWorker())
-                        {
-                            WorkerMenu();
-                        }
-                        break;
-            }
-            } while (select!=0);
+                if (select is int)
+                {
+                    switch (select)
+                    {
+                        case 1:
+                            Console.Clear();
+                            ClientMenu();
+                            break;
+                        case 2:
+                            Console.Clear();
+                            if (autorization.SingInManager())
+                            {
+                                ManagerMenu();
+                            }
+                            break;
+                        case 3:
+                            Console.Clear();
+                            if (autorization.SingInWorker())
+                            {
+                                WorkerMenu();
+                            }
+                            break;
+                    }
+                }
+                else
+                {
+                    throw new FormatException();
+                }
+                } while (select != 0) ;
             autorization.SaveClients();
             autorization.SaveProducts();
             autorization.SaveStat();
@@ -82,22 +88,29 @@ namespace Storage_CourseWork.Services
                         Console.WriteLine("Select true option!");
                     }
                 } while (select < 0 || select > 2);
-                switch (select)
+                if (select is int)
                 {
-                    case 1:
-                        Console.Clear();
-                        Console.WriteLine($"Places left: {autorization.PlacesLeft()}");
-                        Console.WriteLine("\nPress any button to continue \"instead turn off button :)\"");
-                        Console.ReadKey();
-                        Console.WriteLine("\n\n");
-                        break;
-                    case 2:
-                        Console.Clear();
-                        autorization.ShowProductsOnStorage();
-                        Console.WriteLine("\nPress any button to continue \"instead turn off button :)\"");
-                        Console.ReadKey();
-                        Console.WriteLine("\n\n");
-                        break;
+                    switch (select)
+                    {
+                        case 1:
+                            Console.Clear();
+                            Console.WriteLine($"Places left: {autorization.PlacesLeft()}");
+                            Console.WriteLine("\nPress any button to continue \"instead turn off button :)\"");
+                            Console.ReadKey();
+                            Console.WriteLine("\n\n");
+                            break;
+                        case 2:
+                            Console.Clear();
+                            autorization.ShowProductsOnStorage();
+                            Console.WriteLine("\nPress any button to continue \"instead turn off button :)\"");
+                            Console.ReadKey();
+                            Console.WriteLine("\n\n");
+                            break;
+                    }
+                }
+                else
+                {
+                    throw new FormatException();
                 }
             } while (select!=0);
             Console.Clear();
@@ -121,16 +134,23 @@ namespace Storage_CourseWork.Services
                         Console.WriteLine("Incorrect case of menu, try again!\n");
                     }
                 } while (select < 0 || select > 3);
-                switch (select)
-            {
-                case 1:
-                    Console.Clear();
-                    autorization.CreateAcc();
-                    break;
-                case 2:
-                        RepeatMenu();
-                        break;
-            }
+                if (select is int)
+                {
+                    switch (select)
+                    {
+                        case 1:
+                            Console.Clear();
+                            autorization.CreateAcc();
+                            break;
+                        case 2:
+                            RepeatMenu();
+                            break;
+                    }
+                }
+                else
+                {
+                    throw new FormatException();
+                }
             } while (select!=0);
             Console.Clear(); 
         }
@@ -154,31 +174,39 @@ namespace Storage_CourseWork.Services
                         Console.WriteLine("Incorrect case of menu, try again!\n");
                     }
                 } while (select < 0 || select > 4);
-                switch (select)
-            {
-                case 1:
-                    Console.Clear();
-                    autorization.ShowClients();
-                    Console.WriteLine("\nPress any button to continue \"instead turn off button :)\"");
-                    Console.ReadKey();
-                    break;
-                case 2:
-                    Console.Clear();
-                    autorization.ShowProductsOnStorage();
-                    Console.WriteLine("\nPress any button to continue \"instead turn off button :)\"");
-                    Console.ReadKey();
-                    break;
-                       case 3:
-                        Console.Clear();
-                        autorization.ShowStatOfStorage();
-                        Console.WriteLine("\nPress any button to continue \"instead turn off button :)\"");
-                        Console.ReadKey();
-                        break;
-                    case 4:
-                        Console.Clear();
-                        autorization.RemoveClient();
-                        break;
-            }
+                if (select is int)
+                {
+                    switch (select)
+                    {
+                        case 1:
+                            Console.Clear();
+                            autorization.ShowClients();
+                            Console.WriteLine("\nPress any button to continue \"instead turn off button :)\"");
+                            Console.ReadKey();
+                            break;
+                        case 2:
+                            Console.Clear();
+                            autorization.ShowProductsOnStorage();
+                            Console.WriteLine("\nPress any button to continue \"instead turn off button :)\"");
+                            Console.ReadKey();
+                            break;
+                        case 3:
+                            Console.Clear();
+                            autorization.ShowStatOfStorage();
+                            Console.WriteLine("\nPress any button to continue \"instead turn off button :)\"");
+                            Console.ReadKey();
+                            break;
+                        case 4:
+                            Console.Clear();
+                            autorization.RemoveClient();
+                            break;
+                    }
+                }
+                else
+                {
+                    throw new FormatException();
+
+                }
             } while (select!=0);
             Console.Clear();
         }

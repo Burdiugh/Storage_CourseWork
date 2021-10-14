@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Storage_CourseWork.Services
 {
@@ -11,38 +12,47 @@ namespace Storage_CourseWork.Services
     {
         public Client LoginedClient { get; set; } = null;
         Storage storage = new Storage();
+        string patternPassword = @"(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}";
 
 
         public void CreateAcc()
         {
+            var regexPass = new Regex(patternPassword);
             Console.Write("Enter the name: ");
             string name = Console.ReadLine();
             Console.Write("Enter the surname: ");
             string surname = Console.ReadLine();
             Console.Write("How much money do you have? : ");
-            double money = Convert.ToDouble(Console.ReadLine()); ;
-            Console.Write("Enter the login: ");
-            string login;
-            do
+            double money = Convert.ToDouble(Console.ReadLine());
+            if (money is double)
             {
-                login = Console.ReadLine();
-                if (login.Length < 4)
+                Console.Write("Enter the login: ");
+                string login;
+                do
                 {
-                    Console.WriteLine("\nYour Login must have more than 3 letters or digits\n");
-                }
-            } while (login.Length < 4);
-            Console.Write("Enter the password ");
-            string password;
-            do
+                    login = Console.ReadLine();
+                    if (login.Length < 4)
+                    {
+                        Console.WriteLine("\nYour Login must have more than 3 letters or digits\n");
+                    }
+                } while (login.Length < 4);
+                Console.Write("Enter the password ");
+                string password;
+                do
+                {
+                    password = Console.ReadLine();
+                    if (!regexPass.IsMatch(password))
+                    {
+                        Console.WriteLine("\nEasy password!\n");
+                    }
+                } while (!regexPass.IsMatch(password));
+                Client client = new Client(name, surname, money, login, password);
+                storage.AddClient(client);
+            }
+            else
             {
-                password = Console.ReadLine();
-                if (password.Length < 7)
-                {
-                    Console.WriteLine("\nYour Login must have more than 6 letters or digits\n");
-                }
-            } while (password.Length < 7);
-            Client client = new Client(name, surname, money, login, password);
-            storage.AddClient(client);
+                throw new FormatException();
+            }
         }
 
         public bool SingInManager()
@@ -73,7 +83,7 @@ namespace Storage_CourseWork.Services
             string login = Console.ReadLine();
               Console.Write("Enter password: ");
             string password = Console.ReadLine();
-            if (login=="workerAdd"&&password=="thebestjobintheworld")
+            if (login=="Worker333"&&password=="Workerpro")
             {
                     Console.WriteLine("You logined as Worker.");
                 return true;
@@ -184,12 +194,19 @@ namespace Storage_CourseWork.Services
             area = Convert.ToDouble(Console.ReadLine());
             Console.Write("Hom much days do you want to save? : ");
             days = Convert.ToInt32(Console.ReadLine());
-            price = area * (double)days * 8;
-            Product product = new Product(name, area, price, days);
-            product.ExpiredDate = (DateTime.Now).AddDays(days);
-            storage.AddProduct(product);
-            LoginedClient.Money -= price;
-            storage.Cash += price;
+            if (area is double && days is int)
+            {
+                price = area * (double)days * 8;
+                Product product = new Product(name, area, price, days);
+                product.ExpiredDate = (DateTime.Now).AddDays(days);
+                storage.AddProduct(product);
+                LoginedClient.Money -= price;
+                storage.Cash += price;
+            }
+            else
+            {
+                throw new FormatException();
+            }
         }
         public bool IsFull()
         {
