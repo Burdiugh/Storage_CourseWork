@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 
@@ -52,11 +53,11 @@ namespace Storage_CourseWork.Services
         {
             return maxPlaces - Products.Count;
         }
-        public void ShowProductsOfClients()
+        public void ShowProductsOfClientsOnStorage(Client client)
         {
-            foreach (var item in Clients)
+            foreach (var item in Products.Where(i => i.Owner.Login == client.Login))
             {
-                item.ShowMyProducts();
+                Console.WriteLine(item);
             }
         }
         public void ShowProducts()
@@ -82,6 +83,7 @@ namespace Storage_CourseWork.Services
             {
                 if (fs == null)
                 {
+                    Console.WriteLine("File stream is null");
                     throw new NullReferenceException();
                 }
                 else

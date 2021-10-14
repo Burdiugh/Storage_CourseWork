@@ -36,7 +36,7 @@ namespace Storage_CourseWork.Services
             Money = 0;
             id = new Random().Next(1,1000000);
         }
-        public Client(string name,string surname,double money,string log,string pass/*,List<Product>pr*/)
+        public Client(string name,string surname,double money,string log,string pass)
         {
             Name = name;
             Surname = surname;
@@ -44,7 +44,6 @@ namespace Storage_CourseWork.Services
             Login = log;
             Password = pass;
             id = new Random().Next(1, 1000000);
-            //products = pr;
         }
         public double Money
         {

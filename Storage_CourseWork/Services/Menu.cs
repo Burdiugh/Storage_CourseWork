@@ -66,7 +66,7 @@ namespace Storage_CourseWork.Services
                 {
                     throw new FormatException();
                 }
-                } while (select != 0) ;
+            } while (select != 0);
             autorization.SaveClients();
             autorization.SaveProducts();
             autorization.SaveStat();
@@ -77,13 +77,13 @@ namespace Storage_CourseWork.Services
             int select = 0;
             do
             {
-            Console.WriteLine("1. How much places left?\n" +
-                "2. Show products on storage\n" +
-                "0. Exit\n\n");
+                Console.WriteLine("1. How much places left?\n" +
+                    "2. Show products on storage\n" +
+                    "0. Exit\n\n");
                 do
                 {
                     select = Convert.ToInt32(Console.ReadLine());
-                    if (select<0||select>2)
+                    if (select < 0 || select > 2)
                     {
                         Console.WriteLine("Select true option!");
                     }
@@ -112,7 +112,7 @@ namespace Storage_CourseWork.Services
                 {
                     throw new FormatException();
                 }
-            } while (select!=0);
+            } while (select != 0);
             Console.Clear();
         }
         public void ClientMenu()
@@ -121,51 +121,56 @@ namespace Storage_CourseWork.Services
             do
             {
                 Console.Clear();
-            Console.WriteLine("Select option:\n" +
-                "1. Create accountn\n" +
-                "2. Sign in\n" +
-                "0. Back to main menu\n");
+                Console.WriteLine("Select option:\n" +
+                    "1. Create accountn\n" +
+                    "2. Sign in\n" +
+                    "0. Back to main menu\n");
+                while (true)
+                {
+                    try
+                    {
+                        do
+                        {
+                            select = Convert.ToInt32(Console.ReadLine());
+                            if (select < 0 || select > 3)
+                            {
+                                Console.WriteLine("Incorrect case of menu, try again!\n");
+                            }
+                        } while (select < 0 || select > 3);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                        continue;
+                    }
+                    break;
+                }
+                switch (select)
+                {
+                    case 1:
+                        Console.Clear();
+                        autorization.CreateAcc();
+                        break;
+                    case 2:
+                        RepeatMenu();
+                        break;
+                }
 
-                do
-                {
-                    select = Convert.ToInt32(Console.ReadLine());
-                    if (select < 0 || select > 3)
-                    {
-                        Console.WriteLine("Incorrect case of menu, try again!\n");
-                    }
-                } while (select < 0 || select > 3);
-                if (select is int)
-                {
-                    switch (select)
-                    {
-                        case 1:
-                            Console.Clear();
-                            autorization.CreateAcc();
-                            break;
-                        case 2:
-                            RepeatMenu();
-                            break;
-                    }
-                }
-                else
-                {
-                    throw new FormatException();
-                }
-            } while (select!=0);
-            Console.Clear(); 
+            } while (select != 0);
+            Console.Clear();
         }
         public void ManagerMenu()
         {
-            int select=0;
+            int select = 0;
             do
             {
                 Console.Clear();
-            Console.WriteLine("Select option:\n" +
-                "1. Show Clients\n" +
-                "2. Show products on storage \n" +
-                "3. Show stat\n" +
-                "4. Remove Client\n" +
-                "0. Back to main menu\n");
+                Console.WriteLine("Select option:\n" +
+                    "1. Show Clients\n" +
+                    "2. Show products on storage \n" +
+                    "3. Show stat\n" +
+                    "4. Remove Client\n" +
+                    "0. Back to main menu\n");
                 do
                 {
                     select = Convert.ToInt32(Console.ReadLine());
@@ -207,7 +212,7 @@ namespace Storage_CourseWork.Services
                     throw new FormatException();
 
                 }
-            } while (select!=0);
+            } while (select != 0);
             Console.Clear();
         }
         public void RepeatMenu()
@@ -253,7 +258,7 @@ namespace Storage_CourseWork.Services
                             break;
                         case 3:
                             Console.Clear();
-                            autorization.ShowProductsOfClients();
+                            autorization.ShowProductsOfClient();
                             Console.WriteLine("\nPress any button to continue \"instead turn off button :)\"");
                             Console.ReadKey();
                             Console.WriteLine("\n\n");
@@ -275,8 +280,8 @@ namespace Storage_CourseWork.Services
                 switch (select)
                 {
                     case 1:
-                        Console.Clear();    
-                            RepeatMenu();
+                        Console.Clear();
+                        RepeatMenu();
                         break;
                     case 2:
                         select = 0;

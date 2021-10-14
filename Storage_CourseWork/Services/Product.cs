@@ -10,6 +10,7 @@ namespace Storage_CourseWork.Services
     [Serializable]
     public class Product : IProduct
     {
+        public Client Owner { get; set; }
         public Product()
         {
             Name = "";
@@ -18,12 +19,13 @@ namespace Storage_CourseWork.Services
             Price = 0;
             Id = new Random().Next(1,100000000);
         }
-        public Product(string name,double area,double price,int dt)
+        public Product(string name,double area,double price,int dt,Client owner)
         {
             Name = name;
             Area = area;
             Price = price;
             TimeSave = dt;
+            Owner = owner;
             Id = new Random().Next(1, 100000000);
         }
         public int Id { get; set; }
@@ -65,7 +67,8 @@ namespace Storage_CourseWork.Services
                 $"Time save: {TimeSave} days\n" +
                 $"Price of save: {Price}\n" +
                 $"Expired date on {expiredDate}\n" +
-                $"Id: {Id}";
+                $"Id: {Id}\n" +
+                $"Login of owner: {Owner.Login}";
         }
     }
 }

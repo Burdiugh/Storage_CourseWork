@@ -23,9 +23,21 @@ namespace Storage_CourseWork.Services
             Console.Write("Enter the surname: ");
             string surname = Console.ReadLine();
             Console.Write("How much money do you have? : ");
-            double money = Convert.ToDouble(Console.ReadLine());
-            if (money is double)
+            double money = 0;
+            while (true)
             {
+                try
+                {
+                    money = Convert.ToDouble(Console.ReadLine());
+                }
+                catch (Exception ex)
+                {
+
+                    Console.WriteLine(ex.Message);
+                    continue;
+                }
+                break;
+            }
                 Console.Write("Enter the login: ");
                 string login;
                 do
@@ -48,11 +60,7 @@ namespace Storage_CourseWork.Services
                 } while (!regexPass.IsMatch(password));
                 Client client = new Client(name, surname, money, login, password);
                 storage.AddClient(client);
-            }
-            else
-            {
-                throw new FormatException();
-            }
+            
         }
 
         public bool SingInManager()
@@ -101,22 +109,28 @@ namespace Storage_CourseWork.Services
             Console.Clear();
             ShowClients();
             Console.Write("\n\nEnter the id of client to remove: ");
-            int id = Convert.ToInt32(Console.ReadLine());
-            if (id is int)
+            int id=0;
+            while (true)
             {
-                var result = storage.Clients.Where(i => i.Id == id);
-                foreach (var item in result.ToList())
+                try
                 {
-                    Console.WriteLine($"\nDeleted: {item}\n");
-                    storage.Clients.Remove(item);
+                    id = Convert.ToInt32(Console.ReadLine());
                 }
-                Console.WriteLine("Press any button to continue...");
-                Console.ReadKey();
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    continue;
+                }
+                break;
             }
-            else
+            var result = storage.Clients.Where(i => i.Id == id);
+            foreach (var item in result.ToList())
             {
-                throw new FormatException();
+                Console.WriteLine($"\nDeleted: {item}\n");
+                storage.Clients.Remove(item);
             }
+            Console.WriteLine("Press any button to continue...");
+            Console.ReadKey();
         }
         public bool SignIn()
         {
@@ -160,9 +174,11 @@ namespace Storage_CourseWork.Services
         {
             storage.ShowStat();
         }
-        public void ShowProductsOfClients()
+        public void ShowProductsOfClient()
         {
-            storage.ShowProductsOfClients();
+            foreach (var item in LoginedClient.products) {
+                Console.WriteLine(item);
+            }
         }
         public void ShowClients()
         {
@@ -204,7 +220,7 @@ namespace Storage_CourseWork.Services
             if (area is double && days is int)
             {
                 price = area * (double)days * 8;
-                Product product = new Product(name, area, price, days);
+                Product product = new Product(name, area, price, days,LoginedClient);
                 product.ExpiredDate = (DateTime.Now).AddDays(days);
                 storage.AddProduct(product);
                 LoginedClient.Money -= price;
@@ -225,12 +241,21 @@ namespace Storage_CourseWork.Services
         }
         public void TakeProduct()
         {
-            storage.ShowProducts();
+            storage.ShowProductsOfClientsOnStorage(LoginedClient);
             Console.Write("\n\nEnter id: ");
             int id = Convert.ToInt32(Console.ReadLine());
+            if (!storage.Products.Any((el)=> el.Id == id)) { 
+                Console.WriteLine("There aren`t products with such id");
+            }
+            
             var product = storage.Products.Where((el) =>el.Id == id).First();
-            LoginedClient.products.Add(product);
-            storage.Products.Remove(product);
+            if (product.Owner.Login == LoginedClient.Login) {
+                LoginedClient.products.Add(product);
+                storage.Products.Remove(product);
+                return;
+            }
+            Console.WriteLine("Please, enter correct Id!");
+            
         }
     }
 
