@@ -7,7 +7,6 @@ namespace Storage_CourseWork
     {
         static void Main(string[] args)
         {
-
             new Menu();
         }
     }

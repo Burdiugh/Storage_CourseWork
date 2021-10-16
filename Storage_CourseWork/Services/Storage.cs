@@ -55,8 +55,10 @@ namespace Storage_CourseWork.Services
         }
         public void ShowProductsOfClientsOnStorage(Client client)
         {
+            int count = 0;
             foreach (var item in Products.Where(i => i.Owner.Login == client.Login))
             {
+                Console.WriteLine($"Product #{++count}\n");
                 Console.WriteLine(item);
             }
         }

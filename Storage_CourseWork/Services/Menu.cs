@@ -13,9 +13,9 @@ namespace Storage_CourseWork.Services
         }
         public void GlobalMenu()
         {
-            autorization.LoadProducts();
-            autorization.LoadClients();
-            autorization.LoadStat();
+          autorization.LoadProducts();
+           autorization.LoadClients();
+           autorization.LoadStat();
             Console.WriteLine(@"                                                                                                    
                        ░██████╗████████╗░█████╗░██████╗░░█████╗░░██████╗░███████╗  ░█████╗░██████╗░██████╗░
                        ██╔════╝╚══██╔══╝██╔══██╗██╔══██╗██╔══██╗██╔════╝░██╔════╝  ██╔══██╗██╔══██╗██╔══██╗
@@ -225,7 +225,39 @@ namespace Storage_CourseWork.Services
                         break;
                     case 4:
                         Console.Clear();
-                        autorization.RemoveClient();
+                        if (!autorization.RemoveClient())
+                        {
+                            Console.WriteLine("1. Try again\n2. Back\n");
+                            while (true)
+                            {
+                                try
+                                {
+                                    do
+                                    {
+                                        select = Convert.ToInt32(Console.ReadLine());
+                                        if (select < 0 || select > 2)
+                                        {
+                                            Console.WriteLine("Incorrect case of menu, try again!\n");
+                                        }
+                                    } while (select < 0 || select > 2);
+                                }
+                                catch (Exception ex)
+                                {
+                                    Console.WriteLine(ex.Message);
+                                    continue;
+                                }
+                                break;
+                            }
+                            switch (select)
+                            {
+                                case 1:
+                                    autorization.RemoveClient();
+                                    break;
+                                case 2:
+                                    ManagerMenu();
+                                    break;
+                            }
+                        }
                         break;
                 }
 

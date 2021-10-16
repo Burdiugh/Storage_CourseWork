@@ -104,7 +104,7 @@ namespace Storage_CourseWork.Services
             } while (true);
         }
 
-        public void RemoveClient()
+        public bool RemoveClient()
         {
             Console.Clear();
             ShowClients();
@@ -128,7 +128,9 @@ namespace Storage_CourseWork.Services
             {
                 Console.WriteLine($"\nDeleted: {item}\n");
                 storage.Clients.Remove(item);
+                return true;
             }
+            return false;
             Console.WriteLine("Press any button to continue...");
             Console.ReadKey();
         }
